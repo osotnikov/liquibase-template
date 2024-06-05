@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="osotnikov" id="feature_PM-1002_populate_table_changelog">
+        <insert tableName="tech_founder">
+            <column name="firstname" value="Jeff"/>
+            <column name="lastname" value="Bezos"/>
+            <column name="dob" value="12/01/1964"/>
+        </insert>
+        <delete tableName="tech_founder">
+            <where>firstname='Boris'</where>
+        </delete>
+
+        <rollback>
+            <delete tableName="tech_founder">
+                <where>firstname='Jeff'</where>
+            </delete>
+            <insert tableName="tech_founder">
+                <column name="firstname" value="Boris"/>
+                <column name="lastname" value="Johnson"/>
+                <column name="dob" value="19/06/1964"/>
+            </insert>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
