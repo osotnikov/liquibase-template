@@ -46,15 +46,17 @@ So basically have every DDL statement in it's own changeset, but you can group a
 
 ```liquibase rollback --tag=v0.0.1```
 
-13. Part of the reason to use liquibase is to be able to create a copy of your database in other environments, like qa or dev. You can simply run your changelogs on an empty database. If your changelogs include sensitive data you'll have to create a separate script to sanitize it. 
-Unfortunately liquibase does not provide the ability to create an empty new database, you'll have to do that manually.
+13. Part of the reason to use liquibase is to be able to create a copy of your database in other environments, like qa or dev. You can simply run your changelogs on an empty database. If your changelogs include sensitive data you'll have to create a separate script to sanitize it.
+    Unfortunately liquibase does not provide the ability to create an empty new database, you'll have to do that manually.
 
-14. Run the previously generated changelog. Make sure liquibase.properties points to the new db.
+14. To apply the changelogs you simply run the below (Make sure liquibase.properties points to the new db):
 
 ```liquibase update```
 
-16. Notice "databasechangelog" table contains one record per changeset. You can add new changesets straight into the main changelog file but you cannot modify existing changesets because that would violate liquibase integrity constraints imposed by stored changeset hashes. This provides you with a clear auditable trail of exactly how the current database evolved to its current state.
+15. Notice "databasechangelog" table contains one record per changeset. You can add new changesets straight into the main changelog file but you cannot modify existing changesets because that would violate liquibase integrity constraints imposed by stored changeset hashes. This provides you with a clear auditable trail of exactly how the current database evolved to its current state.
 
-17. Every changset that is added after the initial snapshot should have the capacity to be rolled back. This has to be enforced as a practice and verified during code reviews. A lot of things (like simple table creation) don't need an explicit rollback strategy defined. Other ones (like truncating a table) must have the rollback defined explicitly. Simplest rollback command is:
+16. Every changeset that is added after the initial snapshot should have the capacity to be rolled back. This has to be enforced as a practice and verified during code reviews. A lot of things (like simple table creation) don't need an explicit rollback strategy defined. Other ones (like truncating a table) must have the rollback defined explicitly. Simplest rollback command is:
 
 ```liquibase rollbackCount 1```
+
+
